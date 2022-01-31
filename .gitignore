@@ -1,0 +1,8 @@
+*.bin
+*.hex
+*.hlr
+*.ihx
+*.lst
+*.rel
+*.rst
+*.sha1

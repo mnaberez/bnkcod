@@ -12,9 +12,12 @@
     mem_03fa = 0x03fa       ;Usused
     mem_03fb = 0x03fb       ;Unused
     expram   = 0x9000       ;SuperPET expansion RAM area
+    mem_a4d7 = 0xa4d7       ;Default CINV?
+    mem_d478 = 0xd478       ;Default CBINV?
     mem_e455 = 0xe455       ;EDITOR
     mem_e600 = 0xe600       ;EDITOR
     banksel  = 0xeffc       ;SuperPET bank select latch
+    mem_f92b = 0xf92b       ;KERNAL
     mem_fcc0 = 0xfcc0       ;KERNAL
 
 lab_a000:
@@ -22,15 +25,17 @@ lab_a000:
 
 lab_a003:
     sei                     ;a003  78
-    ldx #0x34               ;a004  a2 34
+    ldx #<lab_a034_cinv     ;a004  a2 34
     stx cinv                ;a006  86 90
-    ldx #0xa0               ;a008  a2 a0
+    ldx #>lab_a034_cinv     ;a008  a2 a0
     stx cinv+1              ;a00a  86 91
-    ldx #0x69               ;a00c  a2 69
+
+    ldx #<lab_a069_cbinv    ;a00c  a2 69
     stx cbinv               ;a00e  86 92
-    ldx #0xa0               ;a010  a2 a0
+    ldx #>lab_a069_cbinv    ;a010  a2 a0
     stx cbinv+1             ;a012  86 93
     cli                     ;a014  58
+
     ldx #0x00               ;a015  a2 00
     stx bitci               ;a017  86 be
     stx bufpnt1             ;a019  86 bb
@@ -39,29 +44,32 @@ lab_a003:
 
 lab_a01e:
     jsr mem_fcc0            ;a01e  20 c0 fc
-    lda #0x78               ;a021  a9 78
+
+    lda #<mem_d478          ;a021  a9 78
     sta cbinv               ;a023  85 92
-    lda #0xd4               ;a025  a9 d4
+    lda #>mem_d478          ;a025  a9 d4
     sta cbinv+1             ;a027  85 93
-    lda #0xa4               ;a029  a9 a4
+
+    lda #>mem_a4d7          ;a029  a9 a4
     sta mem_03fa            ;a02b  8d fa 03
-    lda #0xd7               ;a02e  a9 d7
+    lda #<mem_a4d7          ;a02e  a9 d7
     sta mem_03fb            ;a030  8d fb 03
+
     rts                     ;a033  60
 
-lab_a034:
+lab_a034_cinv:
     lda stack+5,x           ;a034  bd 05 01
-    cmp #0x2b               ;a037  c9 2b
+    cmp #<mem_f92b          ;a037  c9 2b
     bne lab_a045            ;a039  d0 0a
     lda stack+6,x           ;a03b  bd 06 01
-    cmp #0xf9               ;a03e  c9 f9
+    cmp #>mem_f92b          ;a03e  c9 f9
     bne lab_a045            ;a040  d0 03
     jsr mem_fcc0            ;a042  20 c0 fc
 
 lab_a045:
-    lda #0xa0               ;a045  a9 a0
+    lda #>lab_a052          ;a045  a9 a0
     pha                     ;a047  48
-    lda #0x52               ;a048  a9 52
+    lda #<lab_a052          ;a048  a9 52
     pha                     ;a04a  48
     php                     ;a04b  08
     pha                     ;a04c  48
@@ -82,7 +90,7 @@ lab_a052:
 sub_a066:
     jmp [expram+4]          ;a066  6c 04 90
 
-lab_a069:
+lab_a069_cbinv:
     lda index               ;a069  a5 1f
     pha                     ;a06b  48
     lda index+1             ;a06c  a5 20

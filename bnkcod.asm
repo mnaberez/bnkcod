@@ -14,8 +14,8 @@
     expram   = 0x9000       ;SuperPET expansion RAM area
     mem_a4d7 = 0xa4d7       ;Default CINV?
     mem_d478 = 0xd478       ;Default CBINV?
-    mem_e455 = 0xe455       ;EDITOR
-    mem_e600 = 0xe600       ;EDITOR
+    mem_e455 = 0xe455       ;EDITOR: Somewhere in main IRQ?
+    mem_e600 = 0xe600       ;EDITOR: Exit from interrupt
     banksel  = 0xeffc       ;SuperPET bank select latch
     mem_f92b = 0xf92b       ;KERNAL
     mem_fcc0 = 0xfcc0       ;KERNAL

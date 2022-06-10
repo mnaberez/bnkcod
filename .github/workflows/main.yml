@@ -21,3 +21,11 @@ jobs:
 
     - name: Assemble the original binary
       run: make list diff
+
+    - name: 'Upload build artifacts'
+      uses: actions/upload-artifact@v3
+      with:
+        name: build-artifacts
+        path: |
+            bnkcod.bin
+            bnkcod.lst

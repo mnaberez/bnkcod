@@ -9,8 +9,8 @@ all: bnkcod.bin diff
 bnkcod.bin: bnkcod.asm
 	as6500 -l -p -w -o bnkcod.asm
 	aslink -i bnkcod
-	srec_cat bnkcod.ihx -intel -offset -0xa000 -fill 0xff 0 2048 -o bnkcod.bin -binary
-	rm bnkcod.hlr bnkcod.ihx bnkcod.rel
+	srec_cat bnkcod.hex -intel -offset -0xa000 -fill 0xff 0 2048 -o bnkcod.bin -binary
+	rm bnkcod.hlr bnkcod.hex bnkcod.rel
 
 # show the assembler listing file
 list: bnkcod.bin
